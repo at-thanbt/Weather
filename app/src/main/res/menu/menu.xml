@@ -7,8 +7,8 @@
     <item android:id="@+id/add"
         android:title="ADD"
         app:showAsAction="always"/>
-    <item android:id="@+id/more"
-        android:title="MORE"
+    <item android:id="@+id/map"
+        android:title="MAP"
         app:showAsAction="always"/>
 
 </menu>
