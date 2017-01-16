@@ -1,20 +1,17 @@
-package com.example.thanhthan.weather.fragment;
+package com.example.thanhthan.weather.weatherprediction;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thanhthan.weather.R;
 import com.example.thanhthan.weather.model.OpenWeatherJSon;
-import com.example.thanhthan.weather.utils.DataFromService;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -29,12 +26,13 @@ import java.text.NumberFormat;
 import java.util.Date;
 
 /**
- * Created by HCD-Fresher041 on 1/12/2017.
+ * Created by Thanh Than on 15/01/2017.
  */
 
-public class FragmentCurrentWeather extends Fragment {
+public class SearchActivity extends AppCompatActivity {
     Bitmap myBitmap=null;
     NumberFormat format = new DecimalFormat("#0.0");
+    private OpenWeatherJSon results;
     TextView txtCurrentAddressName;
     TextView txtTemp;
     ImageView imgSky;
@@ -46,47 +44,46 @@ public class FragmentCurrentWeather extends Fragment {
     TextView txtHumidity;
     TextView txtSunrise;
     TextView txtSunset;
-    private OpenWeatherJSon results;
-    @Nullable
+    private String url ;
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_weather_current_location, container, false);
-
-        txtCurrentAddressName = (TextView) view.findViewById(R.id.txtCurrentAddressName);
-        txtTemp = (TextView) view.findViewById(R.id.txtTemp);
-        imgSky = (ImageView) view.findViewById(R.id.imgSky);
-        txtMaxTemp = (TextView) view.findViewById(R.id.txtMaxTemp);
-        txtMinTemp = (TextView) view.findViewById(R.id.txtMinTemp);
-        txtWind = (TextView) view.findViewById(R.id.txtWind);
-        txtCloudiness = (TextView) view.findViewById(R.id.txtCloudiness);
-        txtPressure = (TextView) view.findViewById(R.id.txtPressure);
-        txtHumidity = (TextView) view.findViewById(R.id.txtHumidity);
-        txtSunrise = (TextView) view.findViewById(R.id.txtSunrise);
-        txtSunset = (TextView) view.findViewById(R.id.txtSunset);
-
-                new DataFromService().execute("http://api.openweathermap.org/data/2.5/weather?q=hồ%20chí%20minh&appid=483cd66e9b77c29fc09f9903508f51b3");
-
-        if(results!=null){
-            Log.d("tag",results.toString()+" 11");
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_address);
+        txtCurrentAddressName = (TextView)findViewById(R.id.txtCurrentAddressName);
+        txtTemp = (TextView)findViewById(R.id.txtTemp);
+        imgSky = (ImageView)findViewById(R.id.imgSky);
+        txtMaxTemp = (TextView)findViewById(R.id.txtMaxTemp);
+        txtMinTemp = (TextView)findViewById(R.id.txtMinTemp);
+        txtWind = (TextView)findViewById(R.id.txtWind);
+        txtCloudiness = (TextView)findViewById(R.id.txtCloudiness);
+        txtPressure = (TextView)findViewById(R.id.txtPressure);
+        txtHumidity = (TextView)findViewById(R.id.txtHumidity);
+        txtSunrise = (TextView)findViewById(R.id.txtSunrise);
+        txtSunset = (TextView)findViewById(R.id.txtSunset);
+        Intent callerIntent = getIntent();
+        Bundle bundle =  callerIntent.getBundleExtra("data");
+        String location = bundle.getString("location");
+        String[] nameLocation = location.split("\\s+");
+        url = "http://api.openweathermap.org/data/2.5/weather?q=";
+        for(int i=0;i<nameLocation.length;i++){
+            url+=nameLocation[i]+"%20";
         }
-        else{
-            Log.d("tag","11");
-        }
-        return view;
+        url += "&appid=483cd66e9b77c29fc09f9903508f51b3";
+        new DataFromService().execute(url);
+
+
     }
-
     class DataFromService extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... url) {
             BufferedReader inputStream = null;
-            Log.d("tag11", url[0]);
             URL jsonUrl = null;
             try {
                 jsonUrl = new URL(url[0]);
                 URLConnection dc = jsonUrl.openConnection();
 
-                dc.setConnectTimeout(5000);
-                dc.setReadTimeout(5000);
+                dc.setConnectTimeout(10000);
+                dc.setReadTimeout(10000);
 
                 inputStream = new BufferedReader(new InputStreamReader(
                         dc.getInputStream()));
@@ -101,15 +98,14 @@ public class FragmentCurrentWeather extends Fragment {
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(String s) {
+            super.onPostExecute(s);
             results = new Gson().fromJson(s,OpenWeatherJSon.class);
-            Log.d("tag",results.toString()+" 11");
             txtCurrentAddressName.setText(results.getName());
-            txtTemp.setText((format.format(results.getMain().getTemp()-273.15))+"");
-            txtMaxTemp.setText((format.format(results.getMain().getTemp_max()-273.15))+" °C");
-            txtMinTemp.setText((format.format(results.getMain().getTemp_min()-273.15))+" °C");
+            txtTemp.setText((float)(results.getMain().getTemp()-273.15)+"");
+            txtMaxTemp.setText((float)(results.getMain().getTemp_max()-273.15)+" °C");
+            txtMinTemp.setText((float)(results.getMain().getTemp_min()-273.15)+" °C");
             txtCloudiness .setText(results.getClouds().getAll()+"");
             txtPressure.setText(results.getMain().getPressure()+" hpa");
             txtHumidity.setText(results.getMain().getHumidity()+" %");
@@ -122,13 +118,10 @@ public class FragmentCurrentWeather extends Fragment {
             txtSunset.setText(sunset);
             txtWind.setText(results.getWind().getSpeed()+" m/s");
             String urlImage = "http://openweathermap.org/img/w/";
-            Picasso.with(getContext()).load(urlImage+results.getWeather().get(0).getIcon()+".png").into(imgSky);
+            Picasso.with(SearchActivity.this).load(urlImage+results.getWeather().get(0).getIcon()+".png").into(imgSky);
             imgSky.setImageBitmap(myBitmap);
-
-            super.onPostExecute(s);
         }
     }
-
 
 
 }

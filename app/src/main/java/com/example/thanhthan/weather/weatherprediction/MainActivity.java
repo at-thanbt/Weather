@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import com.example.thanhthan.weather.R;
 import com.example.thanhthan.weather.adapter.ViewPagerAdapter;
 import com.example.thanhthan.weather.fragment.FragmentCurrentWeather;
+import com.example.thanhthan.weather.fragment.FragmentMapWeather;
 import com.example.thanhthan.weather.fragment.FragmentSearchLocation;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
         fragments.add(new FragmentCurrentWeather());
         fragments.add(new FragmentSearchLocation());
-        fragments.add(new FragmentCurrentWeather());
+        fragments.add(new FragmentMapWeather());
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(adapter);

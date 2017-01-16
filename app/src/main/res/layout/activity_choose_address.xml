@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/tvChooseAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Address :"/>
-    <AutoCompleteTextView
+        android:text="Choose Address :" />
+
+    <EditText
         android:id="@+id/txtAddressCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Here is address"
-        android:completionThreshold="1"/>
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choose follow location"
-        />
+        android:layout_margin="10dp"
+        android:background="@drawable/border_edit_search"
+        android:drawableRight="@android:drawable/ic_search_category_default"
+        android:hint="Here is address" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcvCity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_gravity="center_horizontal"></android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose follow location" />
 
 </LinearLayout>

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/txtCurrentAddressName"
+        android:id="@+id/txtCurrentAddressName"
         android:hint="Current address"
         android:gravity="center"
         android:textColor="#ff1919ff"/>
