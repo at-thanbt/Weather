@@ -106,4 +106,21 @@ public class OpenWeatherJSon {
     public void setWind(Wind wind) {
         this.wind = wind;
     }
+
+    @Override
+    public String toString() {
+        return "OpenWeatherJSon{" +
+                "base='" + base + '\'' +
+                ", coord=" + coord +
+                ", sys=" + sys +
+                ", main=" + main +
+                ", wind=" + wind +
+                ", clouds=" + clouds +
+                ", dt=" + dt +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", cod=" + cod +
+                ", weather=" + weather +
+                '}';
+    }
 }

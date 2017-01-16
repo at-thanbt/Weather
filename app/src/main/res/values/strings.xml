@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name"></string>
+    <string name="title_activity_maps">Map</string>
+    <string name="google_maps_key">AIzaSyD_P3CEDV1zV1AEzqwHjCIjHhxdW2mpM1Q</string>
+    <string name="message_no_service_provider_available">No Service Provider Available</string>
+    <string name="title_GPS_Not_Enabled">GPS Not Enabled</string>
+    <string name="message_Do_you_wants_to_turn_On_GPS">Do you wants to turn On GPS</string>
+    <string name="message_Yes">Yes</string>
+    <string name="message_No">No</string>
+    <string name="message_you_are_here">you are here</string>
+    <string name="message_turn_on_network">Turn on network please</string>
+
 </resources>
